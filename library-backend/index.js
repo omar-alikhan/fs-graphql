@@ -101,6 +101,7 @@ const typeDefs = /* GraphQL */ `
   type Query {
     bookCount: Int
     authorCount: Int
+    allBooks: [Book]
   }
 
   type Book {
@@ -116,6 +117,7 @@ const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => new Set(books.map(b => b.author)).size,
+    allBooks: () => books,
   },
 };
 
