@@ -1,5 +1,5 @@
-const { ApolloServer } = require("@apollo/server")
-const { startStandaloneServer } = require("@apollo/server/standalone")
+const { ApolloServer } = require("@apollo/server");
+const { startStandaloneServer } = require("@apollo/server/standalone");
 
 let authors = [
   {
@@ -25,7 +25,7 @@ let authors = [
     name: "Sandi Metz", // birthyear not known
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
-]
+];
 
 /*
  * Suomi:
@@ -91,31 +91,41 @@ let books = [
     id: "afa5de04-344d-11e9-a414-719c6709cf3e",
     genres: ["classic", "revolution"],
   },
-]
+];
 
 /*
   you can remove the placeholder query once your first one has been implemented 
 */
 
-const typeDefs = `
+const typeDefs = /* GraphQL */ `
   type Query {
-    dummy: Int
+    bookCount: Int
+    authorCount: Int
   }
-`
+
+  type Book {
+    title: String
+    published: Int
+    author: String
+    genres: [String]
+    id: ID!
+  }
+`;
 
 const resolvers = {
   Query: {
-    dummy: () => 0,
+    bookCount: () => books.length,
+    authorCount: () => new Set(books.map(b => b.author)).size,
   },
-}
+};
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-})
+});
 
 startStandaloneServer(server, {
   listen: { port: 4000 },
 }).then(({ url }) => {
-  console.log(`Server ready at ${url}`)
-})
+  console.log(`Server ready at ${url}`);
+});
