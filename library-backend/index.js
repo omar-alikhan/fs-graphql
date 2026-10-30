@@ -1,5 +1,6 @@
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
+const { argsToArgsConfig } = require("graphql/type/definition");
 
 let authors = [
   {
@@ -101,7 +102,7 @@ const typeDefs = /* GraphQL */ `
   type Query {
     bookCount: Int
     authorCount: Int
-    allBooks: [Book]
+    allBooks(author: String): [Book]
     allAuthors: [Author]
   }
 
@@ -127,6 +128,7 @@ const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => authors.length,
+    allBooks: (_, args) => books.filter(b => b.author === args.author),
     allAuthors: () => authors,
   },
 
