@@ -29,11 +29,11 @@ const resolvers = {
       const newBook = new Book({ ...bookFields, author: existingAuthor });
       return newBook.save();
     },
-    editAuthor: (_, args) => {
-      const existingAuthor = authors.find(a => a.name === args.name);
+    editAuthor: async (_, args) => {
+      const existingAuthor = await Author.findOne({ name: args.name });
       if (!existingAuthor) return null;
-      existingAuthor.born = args.setBornTo;
-      return existingAuthor;
+      existingAuthor.born = Number(args.setBornTo);
+      return existingAuthor.save();
     },
   },
 };
