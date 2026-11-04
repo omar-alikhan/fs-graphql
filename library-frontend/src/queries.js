@@ -66,3 +66,11 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const MY_FAVORITE_GENRE = gql`
+  query {
+    me {
+      favoriteGenre
+    }
+  }
+`;
