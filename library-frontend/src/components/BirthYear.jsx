@@ -16,7 +16,8 @@ const BirthYear = () => {
 
   const submit = async e => {
     e.preventDefault();
-    editAuthor({
+    console.log(selectedName);
+    await editAuthor({
       variables: { name: selectedName, setBornTo: parseInt(born) },
     });
     setSelectedName("");
@@ -32,6 +33,9 @@ const BirthYear = () => {
           value={selectedName}
           onChange={e => setSelectedName(e.target.value)}
         >
+          <option value="" disabled>
+            Select an author
+          </option>
           {authors.map(a => (
             <option key={a.id} value={a.name}>
               {a.name}
