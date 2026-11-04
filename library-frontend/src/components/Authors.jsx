@@ -36,8 +36,7 @@ const Authors = props => {
           ))}
         </tbody>
       </table>
-      <h2>Set birthyear</h2>
-      <BirthYear></BirthYear>
+      {props.isUserLoggedIn && <BirthYear></BirthYear>}
     </div>
   );
 };

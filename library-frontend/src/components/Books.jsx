@@ -55,13 +55,14 @@ const Books = props => {
               ? { outline: "3px solid lightblue" }
               : undefined
           }
-          onClick={() =>
-            genreFilter === genre ? setGenreFilter(null) : setGenreFilter(genre)
-          }
+          onClick={() => setGenreFilter(genre)}
         >
           {genre}
         </button>
       ))}
+      <button key="all genres" onClick={() => setGenreFilter(null)}>
+        all genres
+      </button>
     </div>
   );
 };

@@ -25,37 +25,40 @@ const BirthYear = () => {
   };
 
   return (
-    <form onSubmit={submit}>
-      <label>
-        name
-        <select
-          name="name"
-          value={selectedName}
-          onChange={e => setSelectedName(e.target.value)}
-        >
-          <option value="" disabled>
-            Select an author
-          </option>
-          {authors.map(a => (
-            <option key={a.id} value={a.name}>
-              {a.name}
+    <>
+      <h2>Set birthyear</h2>
+      <form onSubmit={submit}>
+        <label>
+          name
+          <select
+            name="name"
+            value={selectedName}
+            onChange={e => setSelectedName(e.target.value)}
+          >
+            <option value="" disabled>
+              Select an author
             </option>
-          ))}
-        </select>
-      </label>
-      <br></br>
-      <label>
-        born
-        <input
-          name="born"
-          type="number"
-          value={born}
-          onChange={({ target }) => setBorn(target.value)}
-        />
-      </label>
-      <br></br>
-      <button type="submit">update author</button>
-    </form>
+            {authors.map(a => (
+              <option key={a.id} value={a.name}>
+                {a.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <br></br>
+        <label>
+          born
+          <input
+            name="born"
+            type="number"
+            value={born}
+            onChange={({ target }) => setBorn(target.value)}
+          />
+        </label>
+        <br></br>
+        <button type="submit">update author</button>
+      </form>
+    </>
   );
 };
 

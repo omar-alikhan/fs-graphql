@@ -75,8 +75,9 @@ const NewBook = props => {
         </div>
         <div>
           <label>
+            genre
             <input
-              name="genres"
+              name="genre"
               value={genre}
               onChange={({ target }) => setGenre(target.value)}
             />
