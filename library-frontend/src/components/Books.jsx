@@ -4,25 +4,24 @@ import { useState } from "react";
 
 const Books = props => {
   const [genreFilter, setGenreFilter] = useState(null);
-  const result = useQuery(ALL_BOOKS, {
+  const [uniqueGenres, setUniqueGenres] = useState(null);
+  const { data: booksData, loading: booksLoading } = useQuery(ALL_BOOKS, {
     skip: !props.show,
+    variables: { genre: genreFilter },
   });
 
   if (!props.show) {
     return null;
   }
 
-  if (result.loading) {
+  if (booksLoading) {
     return <div>loading....</div>;
   }
 
-  const books = result.data.allBooks;
-  const allGenres = books.flatMap(book => book.genres);
-  const uniqueGenres = [...new Set(allGenres)].sort();
-
-  const activeStyle = {
-    outline: "3px solid lightblue",
-  };
+  if (!uniqueGenres) {
+    const allGenres = booksData.allBooks.flatMap(book => book.genres);
+    setUniqueGenres([...new Set(allGenres)].sort());
+  }
 
   return (
     <div>
@@ -39,22 +38,24 @@ const Books = props => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books
-            .filter(a => (genreFilter ? a.genres.includes(genreFilter) : true))
-            .map(a => (
-              <tr key={a.id}>
-                <td>{a.title}</td>
-                <td>{a.author.name}</td>
-                <td>{a.published}</td>
-              </tr>
-            ))}
+          {booksData.allBooks.map(a => (
+            <tr key={a.id}>
+              <td>{a.title}</td>
+              <td>{a.author.name}</td>
+              <td>{a.published}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      {uniqueGenres.map(genre => (
+      {uniqueGenres?.map(genre => (
         <button
           key={genre}
-          style={genreFilter === genre ? activeStyle : undefined}
-          onClick={e =>
+          style={
+            genreFilter === genre
+              ? { outline: "3px solid lightblue" }
+              : undefined
+          }
+          onClick={() =>
             genreFilter === genre ? setGenreFilter(null) : setGenreFilter(genre)
           }
         >
