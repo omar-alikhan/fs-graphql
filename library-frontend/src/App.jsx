@@ -6,7 +6,8 @@ import NewBook from "./components/NewBook";
 import Login from "./components/LoginForm";
 import Recommend from "./components/Recommend";
 import Notification from "./components/Notification";
-import { BOOK_ADDED } from "./queries";
+import { ALL_BOOKS, BOOK_ADDED } from "./queries";
+import { addBookToCache } from "./utils/apolloCache";
 
 const App = () => {
   const [page, setPage] = useState("authors");
@@ -18,7 +19,9 @@ const App = () => {
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data }) => {
-      window.alert(`A new book "${data.data.bookAdded.title}" has been added.`);
+      const bookAdded = data.data.bookAdded;
+      window.alert(`A new book "${bookAdded.title}" has been added.`);
+      addBookToCache(client.cache, bookAdded);
     },
     onError: error => console.log(error),
   });
