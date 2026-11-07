@@ -30,7 +30,7 @@ const resolvers = {
       }
       return Book.find({}).populate("author");
     },
-    allAuthors: async () => Author.find({}),
+    allAuthors: async () => Author.find({}).populate("books"),
     me: (root, args, context) => {
       return context.currentUser;
     },
@@ -160,6 +160,12 @@ const resolvers = {
   Subscription: {
     bookAdded: {
       subscribe: () => pubsub.asyncIterableIterator("BOOK_ADDED"),
+    },
+  },
+
+  Author: {
+    bookCount: async (root, args) => {
+      return root.books.length;
     },
   },
 };
